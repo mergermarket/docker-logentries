@@ -1,0 +1,19 @@
+--- node_modules/docker-allcontainers/allcontainers.js.orig    	2016-09-28 14:50:31.428021686 +0000
++++ node_modules/docker-allcontainers/allcontainers.js 	2016-09-28 14:49:58.714812666 +0000
+@@ -105,6 +105,7 @@
+   return result
+
+   function emit(container) {
++   docker.getContainer(container.Id).inspect(function(err, info) { if (info.Config.Labels['logentries.token']) { return; }
+     if (skipByImage && container.Image.match(skipByImage)) {
+       return
+     }
+@@ -128,6 +129,7 @@
+     names[container.Id] = container
+     result.emit('start', toEmit(container),
+                 docker.getContainer(container.Id))
++   });
+   }
+
+   function toEmit(container) {
+
